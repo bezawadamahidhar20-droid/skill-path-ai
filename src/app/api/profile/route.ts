@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { profiles, users } from "@/db/schema";
-import { requireUser } from "@/lib/auth";
+import { requireUser, sanitizeUser } from "@/lib/auth";
 import { ok, handleApiError } from "@/lib/api-response";
 import { profileSchema } from "@/lib/validation";
 import { eq } from "drizzle-orm";
@@ -10,7 +10,7 @@ export async function GET() {
   try {
     const user = await requireUser();
     const profile = await getProfile(user.id);
-    return ok({ user, profile });
+    return ok({ user: sanitizeUser(user), profile });
   } catch (error) {
     return handleApiError(error);
   }

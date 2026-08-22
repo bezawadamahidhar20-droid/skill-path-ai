@@ -19,6 +19,12 @@ export interface SessionPayload {
   name: string;
 }
 
+export function sanitizeUser<T extends Record<string, any>>(user: T) {
+  if (!user) return user;
+  const { passwordHash: _, ...safeUser } = user;
+  return safeUser;
+}
+
 export async function hashPassword(password: string) {
   return bcrypt.hash(password, 10);
 }
@@ -67,7 +73,17 @@ export async function getCurrentUser() {
   const session = await getSession();
   if (!session) return null;
   try {
-    const rows = await db.select().from(users).where(eq(users.id, session.sub)).limit(1);
+    const rows = await db
+      .select({
+        id: users.id,
+        name: users.name,
+        email: users.email,
+        role: users.role,
+        createdAt: users.createdAt,
+      })
+      .from(users)
+      .where(eq(users.id, session.sub))
+      .limit(1);
     if (rows[0]) return rows[0];
   } catch (error) {
     console.warn("DB query error in getCurrentUser:", error);

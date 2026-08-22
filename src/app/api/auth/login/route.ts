@@ -9,44 +9,28 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     const data = loginSchema.parse(body);
+    const normalizedEmail = data.email.toLowerCase().trim();
 
-    let user: any = null;
+    const rows = await db.select().from(users).where(eq(users.email, normalizedEmail)).limit(1);
+    const user = rows[0];
 
-    try {
-      const rows = await db.select().from(users).where(eq(users.email, data.email)).limit(1);
-      user = rows[0];
-    } catch (dbErr) {
-      console.warn("DB connection error during login, attempting fallback authentication:", dbErr);
+    if (!user) {
+      return fail("INVALID_CREDENTIALS", "Incorrect email or password.", 401);
     }
 
-    if (user) {
-      const validPassword = await verifyPassword(data.password, user.passwordHash);
-      if (!validPassword) {
-        return fail("INVALID_CREDENTIALS", "Incorrect email or password.", 401);
-      }
-      await setSessionCookie({ sub: user.id, email: user.email, role: user.role as "student", name: user.name });
-      return ok({ id: user.id, name: user.name, email: user.email, role: user.role }, "Signed in successfully");
+    const validPassword = await verifyPassword(data.password, user.passwordHash);
+    if (!validPassword) {
+      return fail("INVALID_CREDENTIALS", "Incorrect email or password.", 401);
     }
 
-    // Demo / Dev Fallback Accounts
-    const demoAccounts: Record<string, { id: number; name: string; role: "student" | "admin" | "placement_officer" }> = {
-      "student@placementiq.com": { id: 1, name: "Student User", role: "student" },
-      "admin@placementiq.com": { id: 2, name: "Admin User", role: "admin" },
-      "officer@placementiq.com": { id: 3, name: "Placement Officer", role: "placement_officer" },
-    };
+    await setSessionCookie({
+      sub: user.id,
+      email: user.email,
+      role: user.role as "student" | "admin" | "placement_officer",
+      name: user.name,
+    });
 
-    const demoUser = demoAccounts[data.email.toLowerCase()];
-    if (demoUser || data.password.length >= 6) {
-      const sessionUser = demoUser || {
-        id: Math.floor(Math.random() * 1000) + 10,
-        name: data.email.split("@")[0] || "User",
-        role: "student" as const,
-      };
-      await setSessionCookie({ sub: sessionUser.id, email: data.email, role: sessionUser.role, name: sessionUser.name });
-      return ok({ id: sessionUser.id, name: sessionUser.name, email: data.email, role: sessionUser.role }, "Signed in successfully");
-    }
-
-    return fail("INVALID_CREDENTIALS", "Incorrect email or password.", 401);
+    return ok({ id: user.id, name: user.name, email: user.email, role: user.role }, "Signed in successfully");
   } catch (error) {
     return handleApiError(error);
   }
