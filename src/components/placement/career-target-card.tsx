@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CAREER_ROLES } from "@/lib/scoring";
-import { Target, CheckCircle2, RefreshCw } from "lucide-react";
+import { Target, CheckCircle2, RefreshCw, Briefcase, GraduationCap, Route } from "lucide-react";
 import { useToast } from "@/components/ui/toast";
 
 interface CareerTargetCardProps {
@@ -81,67 +81,76 @@ export function CareerTargetCard({ targetRole }: CareerTargetCardProps) {
     <>
       <Card className="p-6">
         <div className="flex items-center justify-between border-b border-border pb-4">
-          <div className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary">
               <Target className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-text-secondary">Target Career Goal</p>
+              <p className="text-xs font-bold uppercase tracking-wider text-text-secondary">Target Career Goal</p>
               <h2 className="text-lg font-bold text-text">{targetRole}</h2>
             </div>
           </div>
 
-          <Button variant="outline" size="sm" onClick={() => setOpenModal(true)}>
-            <RefreshCw className="mr-1.5 h-3.5 w-3.5" /> Change Goal
+          <Button variant="outline" size="sm" onClick={() => setOpenModal(true)} className="gap-1.5">
+            <RefreshCw className="h-3.5 w-3.5" /> Change
           </Button>
         </div>
 
-        <div className="mt-4 grid gap-4 sm:grid-cols-3">
-          <div className="rounded-lg bg-background p-3.5 border border-border/60">
-            <p className="text-xs font-medium text-text-secondary uppercase tracking-wide">Core Required Skills</p>
-            <div className="mt-2 flex flex-wrap gap-1.5">
+        <div className="mt-5 grid gap-4 sm:grid-cols-3">
+          <div className="rounded-xl bg-muted/50 p-4">
+            <div className="flex items-center gap-1.5 mb-2">
+              <GraduationCap className="h-3.5 w-3.5 text-primary" />
+              <p className="text-[10px] font-bold uppercase tracking-wider text-text-secondary">Core Skills</p>
+            </div>
+            <div className="flex flex-wrap gap-1.5">
               {currentDetails.coreSkills.map((s) => (
-                <span key={s} className="rounded bg-surface px-2 py-0.5 text-xs font-medium text-text border border-border">
+                <span key={s} className="rounded-lg bg-surface px-2 py-0.5 text-[11px] font-semibold text-text border border-border">
                   {s}
                 </span>
               ))}
             </div>
           </div>
 
-          <div className="rounded-lg bg-background p-3.5 border border-border/60">
-            <p className="text-xs font-medium text-text-secondary uppercase tracking-wide">Interview Evaluation</p>
-            <p className="mt-2 text-xs font-medium text-text leading-relaxed">{currentDetails.interviewType}</p>
+          <div className="rounded-xl bg-muted/50 p-4">
+            <div className="flex items-center gap-1.5 mb-2">
+              <Briefcase className="h-3.5 w-3.5 text-primary" />
+              <p className="text-[10px] font-bold uppercase tracking-wider text-text-secondary">Interview Eval</p>
+            </div>
+            <p className="text-xs font-medium text-text leading-relaxed">{currentDetails.interviewType}</p>
           </div>
 
-          <div className="rounded-lg bg-background p-3.5 border border-border/60">
-            <p className="text-xs font-medium text-text-secondary uppercase tracking-wide">Preparation Strategy</p>
-            <p className="mt-2 text-xs font-medium text-text leading-relaxed">{currentDetails.preparationPath}</p>
+          <div className="rounded-xl bg-muted/50 p-4">
+            <div className="flex items-center gap-1.5 mb-2">
+              <Route className="h-3.5 w-3.5 text-primary" />
+              <p className="text-[10px] font-bold uppercase tracking-wider text-text-secondary">Prep Strategy</p>
+            </div>
+            <p className="text-xs font-medium text-text leading-relaxed">{currentDetails.preparationPath}</p>
           </div>
         </div>
       </Card>
 
       {openModal ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
-          <div className="w-full max-w-lg rounded-2xl border border-border bg-card p-6 shadow-xl">
-            <h3 className="text-xl font-bold text-text">Select Your Target Career Goal</h3>
-            <p className="mt-1 text-sm text-text-secondary">
-              Changing your goal dynamically recalculates your skill priorities, readiness thresholds, and roadmap.
+          <div className="w-full max-w-lg rounded-2xl border border-border bg-surface p-6 shadow-2xl">
+            <h3 className="text-xl font-bold tracking-tight text-text">Select Your Target Career</h3>
+            <p className="mt-1.5 text-sm text-text-secondary leading-relaxed">
+              Changing your goal dynamically recalculates skill priorities, readiness thresholds, and your roadmap.
             </p>
 
-            <div className="mt-4 grid grid-cols-2 gap-3 max-h-64 overflow-y-auto pr-1">
+            <div className="mt-5 grid grid-cols-2 gap-3 max-h-64 overflow-y-auto pr-1">
               {CAREER_ROLES.map((role) => (
                 <button
                   type="button"
                   key={role}
                   onClick={() => setSelectedRole(role)}
-                  className={`flex items-center justify-between rounded-xl border p-3 text-left text-sm font-semibold transition ${
+                  className={`flex items-center justify-between rounded-xl border p-3 text-left text-sm font-semibold transition-all ${
                     selectedRole === role
                       ? "border-primary bg-primary-soft text-primary shadow-sm"
-                      : "border-border text-text hover:bg-background"
+                      : "border-border text-text hover:border-primary/30 hover:bg-muted"
                   }`}
                 >
                   <span>{role}</span>
-                  {selectedRole === role ? <CheckCircle2 className="h-4 w-4 text-primary" /> : null}
+                  {selectedRole === role ? <CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> : null}
                 </button>
               ))}
             </div>

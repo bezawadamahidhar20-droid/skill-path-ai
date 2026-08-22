@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
-import { Check, Loader2 } from "lucide-react";
+import { Check, Loader2, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Field, Input, Select, SliderField, Checkbox } from "@/components/ui/form";
 import { Card, SectionHeader } from "@/components/ui/card";
@@ -88,11 +88,11 @@ function buildDefaults(existing: Assessment | null, profile: Profile | null): Fo
 }
 
 const ANALYSIS_STEPS = [
-  "Academic profile",
-  "Technical skills",
-  "Experience",
-  "Career preferences",
-  "ML prediction",
+  "Analyzing academic profile",
+  "Evaluating technical skills",
+  "Assessing experience & projects",
+  "Reviewing career preferences",
+  "Generating readiness prediction",
 ];
 
 export function AssessmentWizard({ existing, profile }: { existing: Assessment | null; profile: Profile | null }) {
@@ -123,7 +123,7 @@ export function AssessmentWizard({ existing, profile }: { existing: Assessment |
 
     const interval = setInterval(() => {
       setAnalysisStep((s) => Math.min(ANALYSIS_STEPS.length - 1, s + 1));
-    }, 450);
+    }, 500);
 
     try {
       const res = await fetch("/api/assessments", {
@@ -142,7 +142,7 @@ export function AssessmentWizard({ existing, profile }: { existing: Assessment |
       setTimeout(() => {
         router.push("/results");
         router.refresh();
-      }, 700);
+      }, 800);
     } catch {
       clearInterval(interval);
       setError("We couldn't reach the server. Please try again.");
@@ -152,19 +152,27 @@ export function AssessmentWizard({ existing, profile }: { existing: Assessment |
 
   if (analyzing) {
     return (
-      <div className="mx-auto flex max-w-md flex-col items-center justify-center px-4 py-24 text-center">
-        <Loader2 className="mb-6 h-10 w-10 animate-spin text-primary" />
-        <h2 className="text-xl font-semibold text-text">Analyzing your profile…</h2>
-        <p className="mt-1 text-sm text-text-secondary">Generating personalized recommendations</p>
-        <ul className="mt-6 flex w-full flex-col gap-2 text-left">
+      <div className="mx-auto flex max-w-lg flex-col items-center justify-center px-4 py-24 text-center">
+        <div className="relative mb-6">
+          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          </div>
+        </div>
+        <h2 className="text-xl font-bold tracking-tight text-text">Analyzing your profile…</h2>
+        <p className="mt-2 text-sm text-text-secondary">
+          Generating your personalized placement readiness report
+        </p>
+        <ul className="mt-8 w-full max-w-sm space-y-2 text-left">
           {ANALYSIS_STEPS.map((label, i) => (
-            <li key={label} className="flex items-center gap-3 rounded-lg border border-border bg-surface px-3 py-2.5 text-sm">
+            <li key={label} className="flex items-center gap-3 rounded-xl border border-border bg-surface px-4 py-3 text-sm transition-all">
               {i <= analysisStep ? (
-                <Check className="h-4 w-4 text-success" />
+                <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-success text-white">
+                  <Check className="h-3.5 w-3.5" />
+                </div>
               ) : (
-                <span className="h-4 w-4 rounded-full border-2 border-border" />
+                <span className="h-6 w-6 shrink-0 rounded-full border-2 border-border" />
               )}
-              <span className={i <= analysisStep ? "text-text" : "text-text-secondary"}>{label}</span>
+              <span className={i <= analysisStep ? "font-semibold text-text" : "text-text-secondary"}>{label}</span>
             </li>
           ))}
         </ul>
@@ -179,25 +187,30 @@ export function AssessmentWizard({ existing, profile }: { existing: Assessment |
         description="Evaluate your current academic, technical, communication and professional readiness. Estimated time: 3-5 minutes."
       />
 
+      {/* Progress Bar */}
       <div className="mb-6">
-        <div className="mb-2 flex items-center justify-between text-xs font-medium text-text-secondary">
-          <span>
+        <div className="mb-2.5 flex items-center justify-between">
+          <span className="text-xs font-bold text-primary">
             Step {step + 1} of {STEPS.length}
           </span>
-          <span>{STEPS[step]}</span>
+          <span className="text-xs font-semibold text-text-secondary">{STEPS[step]}</span>
         </div>
-        <div className="h-2 w-full overflow-hidden rounded-full bg-border">
-          <motion.div className="h-full rounded-full bg-primary" animate={{ width: `${((step + 1) / STEPS.length) * 100}%` }} transition={{ duration: 0.3 }} />
+        <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
+          <motion.div
+            className="h-full rounded-full bg-primary"
+            animate={{ width: `${((step + 1) / STEPS.length) * 100}%` }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          />
         </div>
       </div>
 
-      <Card className="p-6 pb-24 sm:p-8 sm:pb-24">
+      <Card className="p-6 sm:p-8">
         <AnimatePresence mode="wait">
           <motion.div
             key={step}
-            initial={{ opacity: 0, x: 16 }}
+            initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -16 }}
+            exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.25 }}
             className="flex flex-col gap-5"
           >
@@ -229,7 +242,7 @@ export function AssessmentWizard({ existing, profile }: { existing: Assessment |
               <>
                 <SliderField label="Overall Coding Score" value={form.codingScore} onChange={(v) => update("codingScore", v)} />
                 <div>
-                  <p className="mb-2 text-sm font-medium text-text">Programming Languages</p>
+                  <p className="mb-2.5 text-sm font-semibold text-text">Programming Languages</p>
                   <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
                     {PROGRAMMING_LANGUAGES.map((lang) => (
                       <Checkbox key={lang} label={lang} checked={form.languages.includes(lang)} onChange={() => toggleLanguage(lang)} />
@@ -246,12 +259,12 @@ export function AssessmentWizard({ existing, profile }: { existing: Assessment |
 
             {step === 2 ? (
               <>
-                <p className="text-sm font-semibold text-text-secondary">Aptitude</p>
+                <p className="text-xs font-bold uppercase tracking-wider text-text-secondary">Aptitude</p>
                 <SliderField label="Quantitative" value={form.quant} onChange={(v) => update("quant", v)} />
                 <SliderField label="Logical Reasoning" value={form.logical} onChange={(v) => update("logical", v)} />
                 <SliderField label="Verbal Ability" value={form.verbal} onChange={(v) => update("verbal", v)} />
                 <div className="h-px bg-border" />
-                <p className="text-sm font-semibold text-text-secondary">Communication</p>
+                <p className="text-xs font-bold uppercase tracking-wider text-text-secondary">Communication</p>
                 <SliderField label="English Communication" value={form.communication} onChange={(v) => update("communication", v)} />
                 <SliderField label="Interview Confidence" value={form.interviewConfidence} onChange={(v) => update("interviewConfidence", v)} />
                 <SliderField label="Presentation Skills" value={form.presentation} onChange={(v) => update("presentation", v)} />
@@ -284,15 +297,17 @@ export function AssessmentWizard({ existing, profile }: { existing: Assessment |
             {step === 4 ? (
               <>
                 <div>
-                  <p className="mb-2 text-sm font-medium text-text">Preferred Role</p>
+                  <p className="mb-2.5 text-sm font-semibold text-text">Preferred Role</p>
                   <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                     {CAREER_ROLES.map((role) => (
                       <button
                         type="button"
                         key={role}
                         onClick={() => update("preferredRole", role)}
-                        className={`rounded-lg border px-3 py-2.5 text-left text-sm font-medium transition-colors ${
-                          form.preferredRole === role ? "border-primary bg-primary-soft text-primary" : "border-border text-text hover:bg-background"
+                        className={`rounded-xl border px-3.5 py-2.5 text-left text-sm font-semibold transition-all ${
+                          form.preferredRole === role
+                            ? "border-primary bg-primary-soft text-primary shadow-sm"
+                            : "border-border text-text hover:border-primary/30 hover:bg-muted"
                         }`}
                       >
                         {role}
@@ -323,21 +338,35 @@ export function AssessmentWizard({ existing, profile }: { existing: Assessment |
           </motion.div>
         </AnimatePresence>
 
-        {error ? <p className="mt-4 rounded-lg bg-danger/10 px-3 py-2 text-sm font-medium text-danger">{error}</p> : null}
+        {error ? (
+          <div className="mt-4 rounded-xl border border-danger/20 bg-danger/5 px-4 py-3 text-sm font-medium text-danger">
+            {error}
+          </div>
+        ) : null}
       </Card>
 
-      <div className="fixed inset-x-0 bottom-16 z-30 border-t border-border bg-surface/95 px-4 py-3 backdrop-blur lg:bottom-0 lg:left-64">
+      {/* Bottom Navigation */}
+      <div className="fixed inset-x-0 bottom-16 z-30 border-t border-border bg-surface/95 px-4 py-3 backdrop-blur-xl lg:bottom-0 lg:left-64">
         <div className="mx-auto flex max-w-6xl items-center justify-between">
-          <Button variant="ghost" onClick={() => setStep((s) => Math.max(0, s - 1))} disabled={step === 0}>
-            ← Previous
+          <Button
+            variant="ghost"
+            onClick={() => setStep((s) => Math.max(0, s - 1))}
+            disabled={step === 0}
+            className="gap-1.5"
+          >
+            <ChevronLeft className="h-4 w-4" /> Previous
           </Button>
-          <span className="hidden text-sm font-medium text-text-secondary sm:block">
+          <span className="hidden text-xs font-bold text-text-secondary sm:block">
             Step {step + 1} of {STEPS.length}
           </span>
           {isLast ? (
-            <Button onClick={handleSubmit}>Analyze My Placement Readiness</Button>
+            <Button onClick={handleSubmit} className="gap-2">
+              <Sparkles className="h-4 w-4" /> Analyze My Readiness
+            </Button>
           ) : (
-            <Button onClick={() => setStep((s) => Math.min(STEPS.length - 1, s + 1))}>Next →</Button>
+            <Button onClick={() => setStep((s) => Math.min(STEPS.length - 1, s + 1))} className="gap-1.5">
+              Next <ChevronRight className="h-4 w-4" />
+            </Button>
           )}
         </div>
       </div>
