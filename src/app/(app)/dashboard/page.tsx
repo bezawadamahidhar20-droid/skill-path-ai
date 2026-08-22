@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { requireUser } from "@/lib/auth";
+import { requirePageUser } from "@/lib/auth";
 import { getLatestAssessmentWithPrediction, getProfile, getRoadmapTasks } from "@/lib/data";
 import { PageTransition } from "@/components/animations/page-transition";
 import { DashboardCommandCenter } from "@/components/placement/dashboard-command-center";
@@ -12,7 +12,7 @@ import type { AgentContext } from "@/lib/agents/context";
 export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
-  const user = await requireUser();
+  const user = await requirePageUser();
   const profile = await getProfile(user.id);
   const { assessment, prediction } = await getLatestAssessmentWithPrediction(user.id);
   const tasks = await getRoadmapTasks(user.id);

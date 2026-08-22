@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { requireUser } from "@/lib/auth";
+import { requirePageUser } from "@/lib/auth";
 import { getAssessmentHistory } from "@/lib/data";
 import { PageTransition } from "@/components/animations/page-transition";
 import { Card, SectionHeader } from "@/components/ui/card";
@@ -12,7 +12,7 @@ import { History } from "lucide-react";
 export const dynamic = "force-dynamic";
 
 export default async function ResultsHistoryPage() {
-  const user = await requireUser();
+  const user = await requirePageUser();
   const history = await getAssessmentHistory(user.id);
 
   return (

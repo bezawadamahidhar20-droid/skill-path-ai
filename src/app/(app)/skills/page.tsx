@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { requireUser } from "@/lib/auth";
+import { requirePageUser } from "@/lib/auth";
 import { getLatestAssessment, getProfile } from "@/lib/data";
 import { PageTransition } from "@/components/animations/page-transition";
 import { Card, SectionHeader } from "@/components/ui/card";
@@ -15,7 +15,7 @@ import { Radar } from "lucide-react";
 export const dynamic = "force-dynamic";
 
 export default async function SkillsPage() {
-  const user = await requireUser();
+  const user = await requirePageUser();
   const [assessment, profile] = await Promise.all([getLatestAssessment(user.id), getProfile(user.id)]);
 
   if (!assessment) {

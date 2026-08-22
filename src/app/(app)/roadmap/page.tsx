@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { requireUser } from "@/lib/auth";
+import { requirePageUser } from "@/lib/auth";
 import { getRoadmapTasks, getLatestAssessmentWithPrediction, getProfile } from "@/lib/data";
 import { PageTransition } from "@/components/animations/page-transition";
 import { SectionHeader } from "@/components/ui/card";
@@ -13,7 +13,7 @@ import type { AgentContext } from "@/lib/agents/context";
 export const dynamic = "force-dynamic";
 
 export default async function RoadmapPage() {
-  const user = await requireUser();
+  const user = await requirePageUser();
   const [tasks, profile, { assessment, prediction }] = await Promise.all([
     getRoadmapTasks(user.id),
     getProfile(user.id),

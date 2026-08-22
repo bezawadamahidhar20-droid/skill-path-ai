@@ -1,4 +1,4 @@
-import { requireUser } from "@/lib/auth";
+import { requirePageUser } from "@/lib/auth";
 import { getLatestAssessment } from "@/lib/data";
 import { PageTransition } from "@/components/animations/page-transition";
 import { SectionHeader } from "@/components/ui/card";
@@ -11,7 +11,7 @@ import Link from "next/link";
 export const dynamic = "force-dynamic";
 
 export default async function SimulatorPage() {
-  const user = await requireUser();
+  const user = await requirePageUser();
   const assessment = await getLatestAssessment(user.id);
 
   if (!assessment) {

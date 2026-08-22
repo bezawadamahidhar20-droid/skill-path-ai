@@ -1,4 +1,4 @@
-import { requireUser } from "@/lib/auth";
+import { requirePageUser } from "@/lib/auth";
 import { getNotifications } from "@/lib/data";
 import { PageTransition } from "@/components/animations/page-transition";
 import { SectionHeader } from "@/components/ui/card";
@@ -7,7 +7,7 @@ import { NotificationsClient } from "@/components/notifications/notifications-cl
 export const dynamic = "force-dynamic";
 
 export default async function NotificationsPage() {
-  const user = await requireUser();
+  const user = await requirePageUser();
   const notifications = await getNotifications(user.id);
 
   return (

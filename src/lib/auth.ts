@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { db } from "@/db";
 import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
@@ -95,6 +96,14 @@ export async function requireUser() {
   const user = await getCurrentUser();
   if (!user) {
     throw new AuthError("Authentication required", 401);
+  }
+  return user;
+}
+
+export async function requirePageUser() {
+  const user = await getCurrentUser();
+  if (!user) {
+    redirect("/login");
   }
   return user;
 }

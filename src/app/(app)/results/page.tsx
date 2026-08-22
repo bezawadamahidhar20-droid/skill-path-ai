@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { requireUser } from "@/lib/auth";
+import { requirePageUser } from "@/lib/auth";
 import { getLatestAssessmentWithPrediction, getAssessmentHistory } from "@/lib/data";
 import { PageTransition } from "@/components/animations/page-transition";
 import { StaggerContainer, StaggerItem } from "@/components/animations/stagger";
@@ -17,7 +17,7 @@ import { FileSearch, Sparkles } from "lucide-react";
 export const dynamic = "force-dynamic";
 
 export default async function ResultsPage() {
-  const user = await requireUser();
+  const user = await requirePageUser();
   const { assessment, prediction } = await getLatestAssessmentWithPrediction(user.id);
   const history = await getAssessmentHistory(user.id);
 
