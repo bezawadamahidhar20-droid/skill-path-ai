@@ -29,6 +29,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <motion.button
         ref={ref}
+        suppressHydrationWarning
         whileHover={disabled || loading ? undefined : { scale: 1.015 }}
         whileTap={disabled || loading ? undefined : { scale: 0.98 }}
         transition={{ duration: 0.12 }}

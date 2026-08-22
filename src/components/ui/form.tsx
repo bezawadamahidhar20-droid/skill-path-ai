@@ -40,6 +40,7 @@ export const Input = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputE
   ({ className, invalid, ...props }, ref) => (
     <input
       ref={ref}
+      suppressHydrationWarning
       className={cn(
         "h-11 w-full rounded-xl border bg-background px-4 text-sm text-text placeholder:text-text-secondary/60 transition-all duration-150 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/10",
         invalid ? "border-danger" : "border-border",
@@ -55,6 +56,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaHTMLAttributes<H
   ({ className, ...props }, ref) => (
     <textarea
       ref={ref}
+      suppressHydrationWarning
       className={cn(
         "w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-text placeholder:text-text-secondary/60 transition-all duration-150 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/10",
         className,
@@ -69,6 +71,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectHTMLAttributes<HTMLSel
   ({ className, children, ...props }, ref) => (
     <select
       ref={ref}
+      suppressHydrationWarning
       className={cn(
         "h-11 w-full rounded-xl border border-border bg-background px-4 text-sm text-text transition-all duration-150 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/10",
         className,
@@ -136,9 +139,66 @@ export function Checkbox({
         type="checkbox"
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
+        suppressHydrationWarning
         className="h-4 w-4 rounded accent-primary"
       />
       {label}
     </label>
+  );
+}
+
+const CONFIDENCE_LEVELS = [
+  { label: "Below Average", value: 25, color: "danger", description: "Significant gaps exist. Focused practice and structured learning needed." },
+  { label: "Average", value: 50, color: "warning", description: "Basic understanding is there, but needs consistent effort to strengthen weak areas." },
+  { label: "Good", value: 75, color: "primary", description: "Solid foundation with minor gaps. Targeted prep can make you interview-ready." },
+  { label: "Perfect", value: 100, color: "success", description: "Strong mastery. Focus on advanced topics and real-world application." },
+] as const;
+
+export function ConfidenceField({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: number;
+  onChange: (value: number) => void;
+}) {
+  const selectedLevel = CONFIDENCE_LEVELS.find((l) => l.value === value);
+
+  return (
+    <div className="flex flex-col gap-2">
+      <span className="text-sm font-semibold text-text">{label}</span>
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+        {CONFIDENCE_LEVELS.map((level) => {
+          const isSelected = value === level.value;
+          return (
+            <button
+              key={level.value}
+              type="button"
+              title={level.description}
+              onClick={() => onChange(level.value)}
+              className={`rounded-xl border px-3 py-2.5 text-center text-xs font-bold transition-all duration-150 ${
+                isSelected
+                  ? level.color === "danger"
+                    ? "border-danger bg-danger/10 text-danger shadow-sm"
+                    : level.color === "warning"
+                      ? "border-warning bg-warning/10 text-warning shadow-sm"
+                      : level.color === "primary"
+                        ? "border-primary bg-primary-soft text-primary shadow-sm"
+                        : "border-success bg-success/10 text-success shadow-sm"
+                  : "border-border bg-surface text-text-secondary hover:border-primary/30 hover:bg-muted"
+              }`}
+            >
+              {level.label}
+            </button>
+          );
+        })}
+      </div>
+      {selectedLevel ? (
+        <p className="text-[11px] leading-relaxed text-text-secondary">
+          {selectedLevel.description}
+        </p>
+      ) : null}
+    </div>
   );
 }

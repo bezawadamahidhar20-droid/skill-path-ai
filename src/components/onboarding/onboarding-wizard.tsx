@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Field, Input, Select, SliderField } from "@/components/ui/form";
+import { Field, Input, Select, SliderField, ConfidenceField } from "@/components/ui/form";
 import { Card } from "@/components/ui/card";
 import { BRANCHES, DEGREES } from "@/lib/constants";
 import { CAREER_ROLES } from "@/lib/scoring";
@@ -215,9 +215,9 @@ export function OnboardingWizard() {
 
               {step === 2 ? (
                 <>
-                  <SliderField label="Overall Coding Score" value={form.codingScore} onChange={(v) => update("codingScore", v)} />
-                  <SliderField label="Aptitude (Quant + Logical)" value={form.quant} onChange={(v) => update("quant", v)} />
-                  <SliderField label="Communication" value={form.communication} onChange={(v) => update("communication", v)} />
+                  <ConfidenceField label="Overall Coding Score" value={form.codingScore} onChange={(v) => update("codingScore", v)} />
+                  <ConfidenceField label="Aptitude (Quant + Logical)" value={form.quant} onChange={(v) => update("quant", v)} />
+                  <ConfidenceField label="Communication" value={form.communication} onChange={(v) => update("communication", v)} />
                 </>
               ) : null}
 

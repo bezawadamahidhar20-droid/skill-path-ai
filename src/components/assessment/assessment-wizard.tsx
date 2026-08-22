@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { Check, Loader2, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Field, Input, Select, SliderField, Checkbox } from "@/components/ui/form";
+import { Field, Input, Select, SliderField, Checkbox, ConfidenceField } from "@/components/ui/form";
 import { Card, SectionHeader } from "@/components/ui/card";
 import { BRANCHES, PROGRAMMING_LANGUAGES, INDUSTRIES } from "@/lib/constants";
 import { CAREER_ROLES } from "@/lib/scoring";
@@ -240,7 +240,7 @@ export function AssessmentWizard({ existing, profile }: { existing: Assessment |
 
             {step === 1 ? (
               <>
-                <SliderField label="Overall Coding Score" value={form.codingScore} onChange={(v) => update("codingScore", v)} />
+                <ConfidenceField label="Overall Coding Score" value={form.codingScore} onChange={(v) => update("codingScore", v)} />
                 <div>
                   <p className="mb-2.5 text-sm font-semibold text-text">Programming Languages</p>
                   <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -260,14 +260,14 @@ export function AssessmentWizard({ existing, profile }: { existing: Assessment |
             {step === 2 ? (
               <>
                 <p className="text-xs font-bold uppercase tracking-wider text-text-secondary">Aptitude</p>
-                <SliderField label="Quantitative" value={form.quant} onChange={(v) => update("quant", v)} />
-                <SliderField label="Logical Reasoning" value={form.logical} onChange={(v) => update("logical", v)} />
-                <SliderField label="Verbal Ability" value={form.verbal} onChange={(v) => update("verbal", v)} />
+                <ConfidenceField label="Quantitative" value={form.quant} onChange={(v) => update("quant", v)} />
+                <ConfidenceField label="Logical Reasoning" value={form.logical} onChange={(v) => update("logical", v)} />
+                <ConfidenceField label="Verbal Ability" value={form.verbal} onChange={(v) => update("verbal", v)} />
                 <div className="h-px bg-border" />
                 <p className="text-xs font-bold uppercase tracking-wider text-text-secondary">Communication</p>
-                <SliderField label="English Communication" value={form.communication} onChange={(v) => update("communication", v)} />
-                <SliderField label="Interview Confidence" value={form.interviewConfidence} onChange={(v) => update("interviewConfidence", v)} />
-                <SliderField label="Presentation Skills" value={form.presentation} onChange={(v) => update("presentation", v)} />
+                <ConfidenceField label="English Communication" value={form.communication} onChange={(v) => update("communication", v)} />
+                <ConfidenceField label="Interview Confidence" value={form.interviewConfidence} onChange={(v) => update("interviewConfidence", v)} />
+                <ConfidenceField label="Presentation Skills" value={form.presentation} onChange={(v) => update("presentation", v)} />
               </>
             ) : null}
 

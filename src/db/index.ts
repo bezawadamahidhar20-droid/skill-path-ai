@@ -1,7 +1,12 @@
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 
-const databaseUrl = process.env.DATABASE_URL || "postgresql://postgres:postgres@localhost:5432/placementiq";
+let databaseUrl = process.env.DATABASE_URL || "postgresql://postgres:postgres@localhost:5432/placementiq";
+
+// Sanitize legacy postgres sslmode parameter to suppress pg-connection-string deprecation warning
+if (databaseUrl.includes("sslmode=require") || databaseUrl.includes("sslmode=prefer") || databaseUrl.includes("sslmode=verify-ca")) {
+  databaseUrl = databaseUrl.replace(/sslmode=(require|prefer|verify-ca)/g, "sslmode=verify-full");
+}
 
 const globalForDb = globalThis as typeof globalThis & {
   __arenaNextJsPostgresqlPool?: Pool;

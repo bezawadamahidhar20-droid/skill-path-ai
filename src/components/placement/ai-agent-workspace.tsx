@@ -185,9 +185,14 @@ export function AIAgentWorkspace({ initialAgentId, userContext, onClose }: AIAge
               ))}
             </div>
 
-            <Button variant="ghost" size="sm" onClick={onClose} className="h-8 w-8 p-0">
+            <button
+              type="button"
+              onClick={onClose}
+              className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-border bg-surface text-text-secondary transition-colors hover:bg-danger/10 hover:text-danger hover:border-danger/30"
+              aria-label="Dismiss"
+            >
               <X className="h-4 w-4" />
-            </Button>
+            </button>
           </div>
         </div>
 
