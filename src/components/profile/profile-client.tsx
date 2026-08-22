@@ -12,7 +12,7 @@ import { CAREER_ROLES } from "@/lib/scoring";
 import type { users, profiles, projects as projectsTable } from "@/db/schema";
 import type { InferSelectModel } from "drizzle-orm";
 
-type User = InferSelectModel<typeof users>;
+type User = Omit<InferSelectModel<typeof users>, "passwordHash">;
 type Profile = InferSelectModel<typeof profiles>;
 type Project = InferSelectModel<typeof projectsTable>;
 
