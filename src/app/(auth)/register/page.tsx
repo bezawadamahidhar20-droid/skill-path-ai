@@ -53,10 +53,16 @@ export default function RegisterPage() {
   return (
     <AuthLayout>
       <Card className="p-8">
-        <h2 className="text-2xl font-semibold tracking-tight text-text">Create your account</h2>
-        <p className="mt-1 text-sm text-text-secondary">Start understanding your placement readiness today.</p>
+        <div className="mb-6">
+          <h2 className="text-2xl font-bold tracking-tight text-text">
+            Create your account
+          </h2>
+          <p className="mt-1.5 text-sm text-text-secondary">
+            Start understanding your placement readiness today.
+          </p>
+        </div>
 
-        <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <Field label="Full Name" htmlFor="name">
             <Input id="name" required value={name} onChange={(e) => setName(e.target.value)} placeholder="Mahidhar Reddy" />
           </Field>
@@ -80,14 +86,14 @@ export default function RegisterPage() {
               minLength={8}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
+              placeholder="Create a strong password"
             />
           </Field>
 
           {error ? (
-            <p role="alert" className="rounded-lg bg-danger/10 px-3 py-2 text-sm font-medium text-danger">
+            <div role="alert" className="rounded-lg border border-danger/20 bg-danger/5 px-4 py-3 text-sm font-medium text-danger">
               {error}
-            </p>
+            </div>
           ) : null}
 
           <Button type="submit" size="lg" loading={loading} className="mt-2 w-full">
@@ -95,9 +101,12 @@ export default function RegisterPage() {
           </Button>
         </form>
 
-        <p className="mt-6 text-center text-sm text-text-secondary">
+        <p className="mt-8 text-center text-sm text-text-secondary">
           Already have an account?{" "}
-          <Link href="/login" className="font-medium text-primary hover:underline">
+          <Link
+            href="/login"
+            className="font-semibold text-primary transition-colors hover:text-primary-hover"
+          >
             Sign in
           </Link>
         </p>

@@ -9,7 +9,7 @@ export function ScoreRing({
   size = 176,
   strokeWidth = 14,
   label,
-  color = "#7D4047",
+  color = "var(--color-primary)",
 }: {
   score: number;
   size?: number;
@@ -26,7 +26,7 @@ export function ScoreRing({
   return (
     <div className="relative inline-flex items-center justify-center" style={{ width: size, height: size }}>
       <svg width={size} height={size} className="-rotate-90">
-        <circle cx={size / 2} cy={size / 2} r={radius} stroke="#E6DED7" strokeWidth={strokeWidth} fill="none" />
+        <circle cx={size / 2} cy={size / 2} r={radius} stroke="#e5e7eb" strokeWidth={strokeWidth} fill="none" />
         <motion.circle
           cx={size / 2}
           cy={size / 2}
@@ -42,11 +42,11 @@ export function ScoreRing({
         />
       </svg>
       <div className="absolute flex flex-col items-center justify-center">
-        <span className="text-4xl font-semibold tabular-nums text-text">
+        <span className="text-4xl font-bold tabular-nums text-text">
           <AnimatedNumber value={clamped} />
         </span>
         <span className="text-xs font-medium text-text-secondary">/100</span>
-        {label ? <span className="mt-1 text-[11px] font-medium text-text-secondary">{label}</span> : null}
+        {label ? <span className="mt-1 text-[11px] font-semibold text-text-secondary">{label}</span> : null}
       </div>
     </div>
   );

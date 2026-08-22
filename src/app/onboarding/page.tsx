@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { requirePageUser } from "@/lib/auth";
 import { getProfile } from "@/lib/data";
 import { OnboardingWizard } from "@/components/onboarding/onboarding-wizard";
+import { Providers } from "@/components/layout/providers";
 
 export const dynamic = "force-dynamic";
 
@@ -13,5 +14,5 @@ export default async function OnboardingPage() {
     redirect("/dashboard");
   }
 
-  return <OnboardingWizard />;
+  return <Providers><OnboardingWizard /></Providers>;
 }

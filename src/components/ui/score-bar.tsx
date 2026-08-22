@@ -6,7 +6,7 @@ export function ScoreBar({
   label,
   value,
   onClick,
-  color = "#7D4047",
+  color = "var(--color-primary)",
 }: {
   label: string;
   value: number;
@@ -20,11 +20,13 @@ export function ScoreBar({
       onClick={onClick}
       className={`w-full text-left ${onClick ? "cursor-pointer transition-opacity hover:opacity-80" : ""}`}
     >
-      <div className="mb-1.5 flex items-center justify-between text-sm">
-        <span className="font-medium text-text">{label}</span>
-        <span className="font-semibold tabular-nums text-text-secondary">{Math.round(clamped)}%</span>
-      </div>
-      <div className="h-2.5 w-full overflow-hidden rounded-full bg-border/60">
+      {label ? (
+        <div className="mb-1.5 flex items-center justify-between text-sm">
+          <span className="font-semibold text-text">{label}</span>
+          <span className="font-bold tabular-nums text-text-secondary">{Math.round(clamped)}%</span>
+        </div>
+      ) : null}
+      <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
         <motion.div
           className="h-full rounded-full"
           style={{ backgroundColor: color }}

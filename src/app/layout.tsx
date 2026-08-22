@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
-import { MotionPreferenceProvider } from "@/components/animations/motion-preference";
-import { ToastProvider } from "@/components/ui/toast";
 
 export const metadata: Metadata = {
   title: "PlacementIQ — Placement Readiness & Career Intelligence",
@@ -14,9 +12,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body className="bg-background font-sans text-text antialiased">
-        <MotionPreferenceProvider>
-          <ToastProvider>{children}</ToastProvider>
-        </MotionPreferenceProvider>
+        {children}
       </body>
     </html>
   );

@@ -20,7 +20,7 @@ export function Field({
 }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label htmlFor={htmlFor} className="text-sm font-medium text-text">
+      <label htmlFor={htmlFor} className="text-sm font-semibold text-text">
         {label}
         {required ? <span className="text-danger"> *</span> : null}
       </label>
@@ -41,7 +41,7 @@ export const Input = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputE
     <input
       ref={ref}
       className={cn(
-        "h-11 w-full rounded-lg border bg-surface px-3.5 text-sm text-text placeholder:text-text-secondary/70 transition-colors focus:border-primary focus:outline-none",
+        "h-11 w-full rounded-xl border bg-background px-4 text-sm text-text placeholder:text-text-secondary/60 transition-all duration-150 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/10",
         invalid ? "border-danger" : "border-border",
         className,
       )}
@@ -56,7 +56,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaHTMLAttributes<H
     <textarea
       ref={ref}
       className={cn(
-        "w-full rounded-lg border border-border bg-surface px-3.5 py-2.5 text-sm text-text placeholder:text-text-secondary/70 transition-colors focus:border-primary focus:outline-none",
+        "w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-text placeholder:text-text-secondary/60 transition-all duration-150 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/10",
         className,
       )}
       {...props}
@@ -70,7 +70,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectHTMLAttributes<HTMLSel
     <select
       ref={ref}
       className={cn(
-        "h-11 w-full rounded-lg border border-border bg-surface px-3.5 text-sm text-text transition-colors focus:border-primary focus:outline-none",
+        "h-11 w-full rounded-xl border border-border bg-background px-4 text-sm text-text transition-all duration-150 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/10",
         className,
       )}
       {...props}
@@ -101,8 +101,8 @@ export function SliderField({
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between">
-        <span className="text-sm font-medium text-text">{label}</span>
-        <span className="rounded-md bg-primary-soft px-2 py-0.5 text-sm font-semibold tabular-nums text-primary">
+        <span className="text-sm font-semibold text-text">{label}</span>
+        <span className="rounded-lg bg-primary-soft px-2.5 py-0.5 text-sm font-bold tabular-nums text-primary">
           {value}
           {suffix}
         </span>
@@ -114,7 +114,7 @@ export function SliderField({
         step={step}
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="h-2 w-full cursor-pointer appearance-none rounded-full bg-border accent-[#7D4047]"
+        className="h-2 w-full cursor-pointer appearance-none rounded-full bg-border accent-primary"
         aria-label={label}
       />
     </div>
@@ -131,12 +131,12 @@ export function Checkbox({
   onChange: (checked: boolean) => void;
 }) {
   return (
-    <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary-soft">
+    <label className="flex cursor-pointer items-center gap-2.5 rounded-xl border border-border px-3.5 py-2.5 text-sm transition-all duration-150 has-[:checked]:border-primary has-[:checked]:bg-primary-soft">
       <input
         type="checkbox"
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
-        className="h-4 w-4 accent-[#7D4047]"
+        className="h-4 w-4 rounded accent-primary"
       />
       {label}
     </label>

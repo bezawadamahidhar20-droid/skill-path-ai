@@ -26,13 +26,13 @@ export function MetricCard({
   return (
     <HoverCard>
       <div className="flex items-start justify-between">
-        <p className="text-sm font-medium text-text-secondary">{label}</p>
+        <p className="text-sm font-semibold text-text-secondary">{label}</p>
         {icon ? <div className="text-primary">{icon}</div> : null}
       </div>
-      <p className="mt-2 text-3xl font-semibold tabular-nums text-text">
+      <p className="mt-2 text-3xl font-bold tabular-nums text-text">
         <AnimatedNumber value={value} decimals={decimals} />
       </p>
-      {delta ? <p className={`mt-1 text-xs font-medium ${toneClass}`}>{delta}</p> : null}
+      {delta ? <p className={`mt-1 text-xs font-semibold ${toneClass}`}>{delta}</p> : null}
       {helper ? <p className="mt-1 text-xs text-text-secondary">{helper}</p> : null}
     </HoverCard>
   );

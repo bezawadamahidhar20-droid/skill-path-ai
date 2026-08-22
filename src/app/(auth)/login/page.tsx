@@ -52,10 +52,16 @@ export default function LoginPage() {
   return (
     <AuthLayout>
       <Card className="p-8">
-        <h2 className="text-2xl font-semibold tracking-tight text-text">Welcome back</h2>
-        <p className="mt-1 text-sm text-text-secondary">Sign in to continue your placement journey.</p>
+        <div className="mb-6">
+          <h2 className="text-2xl font-bold tracking-tight text-text">
+            Welcome back
+          </h2>
+          <p className="mt-1.5 text-sm text-text-secondary">
+            Sign in to continue your placement journey.
+          </p>
+        </div>
 
-        <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <Field label="Email" htmlFor="email">
             <Input
               id="email"
@@ -75,14 +81,14 @@ export default function LoginPage() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
+              placeholder="Enter your password"
             />
           </Field>
 
           {error ? (
-            <p role="alert" className="rounded-lg bg-danger/10 px-3 py-2 text-sm font-medium text-danger">
+            <div role="alert" className="rounded-lg border border-danger/20 bg-danger/5 px-4 py-3 text-sm font-medium text-danger">
               {error}
-            </p>
+            </div>
           ) : null}
 
           <Button type="submit" size="lg" loading={loading} className="mt-2 w-full">
@@ -100,10 +106,13 @@ export default function LoginPage() {
           Continue with Google
         </Button>
 
-        <p className="mt-6 text-center text-sm text-text-secondary">
+        <p className="mt-8 text-center text-sm text-text-secondary">
           Don&apos;t have an account?{" "}
-          <Link href="/register" className="font-medium text-primary hover:underline">
-            Create account
+          <Link
+            href="/register"
+            className="font-semibold text-primary transition-colors hover:text-primary-hover"
+          >
+            Create one
           </Link>
         </p>
       </Card>

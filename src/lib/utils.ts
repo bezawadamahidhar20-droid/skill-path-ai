@@ -30,12 +30,12 @@ export function toneForScore(score: number): "danger" | "warning" | "success" | 
 export function toneClasses(tone: "danger" | "warning" | "success" | "primary") {
   switch (tone) {
     case "danger":
-      return { text: "text-[#A44C4C]", bg: "bg-[#A44C4C]/10", dot: "bg-[#A44C4C]" };
+      return { text: "text-danger", bg: "bg-danger/10", dot: "bg-danger" };
     case "warning":
-      return { text: "text-[#9A6A27]", bg: "bg-[#9A6A27]/10", dot: "bg-[#9A6A27]" };
+      return { text: "text-warning", bg: "bg-warning/10", dot: "bg-warning" };
     case "success":
-      return { text: "text-[#3F6B46]", bg: "bg-[#3F6B46]/10", dot: "bg-[#3F6B46]" };
+      return { text: "text-success", bg: "bg-success/10", dot: "bg-success" };
     default:
-      return { text: "text-[#7D4047]", bg: "bg-[#F3E8EA]", dot: "bg-[#7D4047]" };
+      return { text: "text-primary", bg: "bg-primary-soft", dot: "bg-primary" };
   }
 }

@@ -28,31 +28,31 @@ export function getSkillLevelTone(level: SkillLevel): {
   switch (level) {
     case "Below Average":
       return {
-        badge: "danger",
+        badge: "danger" as const,
         bg: "bg-danger/10",
         text: "text-danger",
-        border: "border-danger/30",
+        border: "border-danger/20",
       };
     case "Average":
       return {
-        badge: "warning",
+        badge: "warning" as const,
         bg: "bg-warning/10",
         text: "text-warning",
-        border: "border-warning/30",
+        border: "border-warning/20",
       };
     case "Good":
       return {
-        badge: "primary",
+        badge: "primary" as const,
         bg: "bg-primary-soft",
         text: "text-primary",
-        border: "border-primary/30",
+        border: "border-primary/20",
       };
     case "Perfect":
       return {
-        badge: "success",
+        badge: "success" as const,
         bg: "bg-success/10",
         text: "text-success",
-        border: "border-success/30",
+        border: "border-success/20",
       };
   }
 }

@@ -185,7 +185,7 @@ export function JobReadinessRoadmap({ targetRole, tasks, onOpenAgent }: JobReadi
                               ? "success"
                               : task.status === "in_progress"
                               ? "warning"
-                              : "neutral"
+                              : "info"
                           }
                           className="shrink-0 text-[10px]"
                         >
